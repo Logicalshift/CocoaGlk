@@ -92,7 +92,7 @@
 		4B51ABFB07E8927100576AB9 /* GlkHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B51ABF907E8927100576AB9 /* GlkHub.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B51ABFC07E8927100576AB9 /* GlkHub.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B51ABFA07E8927100576AB9 /* GlkHub.m */; };
 		4B664B4B07EC780A0079317A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B664B4A07EC780A0079317A /* logo.png */; };
-		4B664B6B07EC7C190079317A /* GlkClient.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B51AA5607E877C900576AB9 /* GlkClient.framework */; };
+		4B664B6B07EC7C190079317A /* GlkClient.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B51AA5607E877C900576AB9 /* GlkClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4B664B8507EC8B150079317A /* GlkWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B664B8307EC8B150079317A /* GlkWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B664B8607EC8B150079317A /* GlkWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B664B8407EC8B150079317A /* GlkWindow.m */; };
 		4B664C4207ECAC540079317A /* GlkPairWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B664C4007ECAC540079317A /* GlkPairWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -135,7 +135,7 @@
 		4BBC415008A7ABD600B790B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		4BBFE3980C4EC253007DEE18 /* GlkBufferedStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BBFE3960C4EC253007DEE18 /* GlkBufferedStream.h */; };
 		4BBFE3990C4EC253007DEE18 /* GlkBufferedStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BBFE3970C4EC253007DEE18 /* GlkBufferedStream.m */; };
-		4BCB8AA10CD7E3310041731F /* GlkView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B51AA4707E8770600576AB9 /* GlkView.framework */; };
+		4BCB8AA10CD7E3310041731F /* GlkView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4B51AA4707E8770600576AB9 /* GlkView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4BEE1D3B07FCC1D900296CD2 /* GlkTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BEE1D3907FCC1D900296CD2 /* GlkTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BEE1D3C07FCC1D900296CD2 /* GlkTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BEE1D3A07FCC1D900296CD2 /* GlkTextView.m */; };
 		4BEF18CD0AB4643600131910 /* GlkTypesetter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2D3B580AB462C90038255E /* GlkTypesetter.m */; };
@@ -1197,7 +1197,33 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0920;
+				TargetAttributes = {
+					4B0459F007EA20F1002D7C88 = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+					4B0459F507EA20FE002D7C88 = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+					4B3C3B780F3DAB850066A760 = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+					4B51AA4607E8770600576AB9 = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+					4B51AA5507E877C900576AB9 = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+					4BBC40F708A7AABD00B790B5 = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+					4BF085290E166E8300DB5C6B = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+					8D1107260486CEB800E47090 = {
+						DevelopmentTeam = FYA69RFVHB;
+					};
+				};
 			};
 			buildConfigurationList = 4B6A86F5086DB1EA00BFAE69 /* Build configuration list for PBXProject "CocoaGlk" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1597,6 +1623,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1620,7 +1648,9 @@
 					0xb0000000,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk.GlkView;
 				PRODUCT_NAME = GlkView;
+				PROVISIONING_PROFILE = "";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1635,6 +1665,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1655,7 +1687,9 @@
 					0xb0000000,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk.GlkView;
 				PRODUCT_NAME = GlkView;
+				PROVISIONING_PROFILE = "";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1670,6 +1704,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1689,7 +1725,9 @@
 					0xb0000000,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk.GlkView;
 				PRODUCT_NAME = GlkView;
+				PROVISIONING_PROFILE = "";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1702,6 +1740,7 @@
 		4B6A86E6086DB1E900BFAE69 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1725,6 +1764,7 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk.GlkClient;
 				PRODUCT_NAME = GlkClient;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1739,6 +1779,7 @@
 		4B6A86E7086DB1E900BFAE69 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1759,6 +1800,7 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk.GlkClient;
 				PRODUCT_NAME = GlkClient;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1773,6 +1815,7 @@
 		4B6A86E8086DB1E900BFAE69 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1792,6 +1835,7 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk.GlkClient;
 				PRODUCT_NAME = GlkClient;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1975,6 +2019,7 @@
 				GCC_PREFIX_HEADER = CocoaGlk_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk;
 				PRODUCT_NAME = CocoaGlk;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
@@ -1991,6 +2036,7 @@
 				GCC_PREFIX_HEADER = CocoaGlk_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk;
 				PRODUCT_NAME = CocoaGlk;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
@@ -2006,6 +2052,7 @@
 				GCC_PREFIX_HEADER = CocoaGlk_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.logicalshift.CocoaGlk;
 				PRODUCT_NAME = CocoaGlk;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2014,14 +2061,27 @@
 		4B6A86F6086DB1EA00BFAE69 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = FYA69RFVHB;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2030,21 +2090,34 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 			};
 			name = Development;
 		};
 		4B6A86F7086DB1EA00BFAE69 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				DEVELOPMENT_TEAM = FYA69RFVHB;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2053,21 +2126,33 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
 		4B6A86F8086DB1EA00BFAE69 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = FYA69RFVHB;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2076,7 +2161,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Default;
 		};
@@ -2167,6 +2252,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2185,6 +2271,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.GlkSound;
 				PRODUCT_NAME = GlkSound;
 			};
 			name = Development;
@@ -2193,6 +2280,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2210,6 +2298,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.GlkSound;
 				PRODUCT_NAME = GlkSound;
 				ZERO_LINK = NO;
 			};
@@ -2219,6 +2308,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2234,6 +2324,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.GlkSound;
 				PRODUCT_NAME = GlkSound;
 			};
 			name = Default;
