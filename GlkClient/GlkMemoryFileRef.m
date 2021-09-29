@@ -27,16 +27,16 @@
 	[super dealloc];
 }
 
-- (NSObject<GlkStream>*) createReadOnlyStream {
+- (byref id<GlkStream>) createReadOnlyStream {
 	return [[GlkMemoryStream alloc] initWithMemory: (unsigned char*)[data bytes]
 											length: [data length]];
 }
 
-- (NSObject<GlkStream>*) createWriteOnlyStream {
+- (byref id<GlkStream>) createWriteOnlyStream {
 	return nil;
 }
 
-- (NSObject<GlkStream>*) createReadWriteStream {
+- (byref id<GlkStream>) createReadWriteStream {
 	return nil;
 }
 

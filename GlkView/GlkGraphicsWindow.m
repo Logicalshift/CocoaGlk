@@ -94,7 +94,7 @@
 	// Draw the buffer image
 	[windowImage drawInRect: rect
 				   fromRect: [self convertGlkToImageCoords: rect]
-				  operation: NSCompositeSourceOver
+				  operation: NSCompositingOperationSourceOver
 				   fraction: 1.0];
 }
 
@@ -150,12 +150,12 @@
 	lastSize = [self glkSize];
 }
 
-- (float) widthForFixedSize: (unsigned) size {
+- (CGFloat) widthForFixedSize: (unsigned) size {
 	// Graphics sizes are already in pixels
 	return size;
 }
 
-- (float) heightForFixedSize: (unsigned) size {
+- (CGFloat) heightForFixedSize: (unsigned) size {
 	// Graphics sizes are already in pixels
 	return size;
 }
@@ -188,10 +188,7 @@
 	[self setNeedsDisplay: YES];
 }
 
-- (void) setBackgroundColour: (NSColor*) col {
-	[backgroundColour release];
-	backgroundColour = [col copy];
-}
+@synthesize backgroundColour;
 
 - (void) drawImage: (NSImage*) img
 			inRect: (NSRect) imgRect {
@@ -203,7 +200,7 @@
 	[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
 	[img drawInRect: imgRect
 		   fromRect: NSMakeRect(0,0, imgSize.width, imgSize.height)
-		  operation: NSCompositeSourceOver
+		  operation: NSCompositingOperationSourceOver
 		   fraction: 1.0];
 	[windowImage unlockFocus];
 	

@@ -14,7 +14,7 @@
 
 @implementation GlkUcs4Stream
 
-- (id) initWithStream: (NSObject<GlkStream>*) stream
+- (id) initWithStream: (id<GlkStream>) stream
 			bigEndian: (BOOL) isBigEndian {
 	self = [super init];
 	
@@ -36,28 +36,28 @@
 	[dataStream closeStream];
 }
 
-- (void) setPosition: (int) position
-		  relativeTo: (enum GlkSeekMode) seekMode {
+- (void) setPosition: (in NSInteger) position
+		  relativeTo: (in enum GlkSeekMode) seekMode {
 	[dataStream setPosition: position
 				 relativeTo: seekMode];
 }
 
-- (unsigned) getPosition {
+- (NSUInteger) getPosition {
 	return [dataStream getPosition];
 }
 
 // Writing
 
-- (void) putChar: (unichar) ch {
+- (void) putChar: (in unichar) ch {
 	[self putString: [NSString stringWithCharacters: &ch
 											 length: 1]];
 }
 
-- (void) putString: (NSString*) string {
-	int len = [string length]*2;
+- (void) putString: (in bycopy NSString*) string {
+	NSInteger len = [string length]*2;
 	glui32 buf[len];
 	
-	len = cocoaglk_copy_string_to_uni_buf(string, buf, len);
+	len = cocoaglk_copy_string_to_uni_buf(string, buf, (int)len);
 	
 	// Convert to a big-endian buffer
 	NSMutableData* data = [NSMutableData dataWithLength: len*4];
@@ -85,7 +85,7 @@
 	[self putBuffer: data];
 }
 
-- (void) putBuffer: (NSData*) buffer {
+- (void) putBuffer: (in bycopy NSData*) buffer {
 	[dataStream putBuffer: buffer];
 }
 
@@ -105,7 +105,7 @@
 		return '?';
 }
 
-- (NSString*) getLineWithLength: (int) maxLen {
+- (bycopy NSString*) getLineWithLength: (int) maxLen {
 	glui32* line = NULL;
 	int lineLength = 0;
 	int lineAllocated = 0;
@@ -137,7 +137,7 @@
 	return res;
 }
 
-- (NSData*) getBufferWithLength: (unsigned) length {
+- (bycopy NSData*) getBufferWithLength: (NSUInteger) length {
 	return [dataStream getBufferWithLength: length];
 }
 

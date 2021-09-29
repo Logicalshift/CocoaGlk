@@ -96,8 +96,8 @@
 	handle = nil;
 }
 
-- (void) setPosition: (int) position
-		  relativeTo: (enum GlkSeekMode) seekMode {
+- (void) setPosition: (in NSInteger) position
+		  relativeTo: (in enum GlkSeekMode) seekMode {
 	unsigned long long offset = [handle offsetInFile];
 	
 	switch (seekMode) {
@@ -119,13 +119,13 @@
 	[handle seekToFileOffset: offset];
 }
 
-- (unsigned) getPosition {
+- (NSUInteger) getPosition {
 	return [handle offsetInFile];
 }
 
 // Writing
 
-- (void) putChar: (unichar) ch {
+- (void) putChar: (in unichar) ch {
 	unsigned char data = ch;
 	if (ch > 255) data = '?';
 	
@@ -133,11 +133,11 @@
 									  length: 1]];
 }
 
-- (void) putString: (NSString*) string {
-	int len = [string length];
+- (void) putString: (in bycopy NSString*) string {
+	NSInteger len = [string length];
 	char* latin1 = malloc(sizeof(char)*[string length]);
 	
-	int x;
+	NSInteger x;
 	for (x=0; x<len; x++) {
 		unichar ch = [string characterAtIndex: x];
 		if (ch > 255) ch = '?';
@@ -151,7 +151,7 @@
 	[handle writeData: latin1Data];
 }
 
-- (void) putBuffer: (NSData*) buffer {
+- (void) putBuffer: (in bycopy NSData*) buffer {
 	[handle writeData: buffer];
 }
 
@@ -165,7 +165,7 @@
 	return ((unsigned char*)[data bytes])[0];
 }
 
-- (NSString*) getLineWithLength: (int) maxLen {
+- (bycopy NSString*) getLineWithLength: (int) maxLen {
 	NSMutableString* res = [NSMutableString string];
 	
 	unichar ch;
@@ -187,7 +187,7 @@
 	return res;
 }
 
-- (NSData*) getBufferWithLength: (unsigned) length {
+- (bycopy NSData*) getBufferWithLength: (NSUInteger) length {
 	NSData* data = [handle readDataOfLength: length];
 	
 	if (data == nil || [data length] <= 0) return nil;

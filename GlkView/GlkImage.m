@@ -18,7 +18,7 @@ NSString* GlkImageAttribute = @"GlkImageAttribute";
 - (id) initWithImage: (NSImage*) img
 		   alignment: (unsigned) align
 				size: (NSSize) sz
-			position: (unsigned) charPos {
+			position: (NSUInteger) charPos {
 	self = [super init];
 	
 	if (self) {
@@ -39,21 +39,10 @@ NSString* GlkImageAttribute = @"GlkImageAttribute";
 
 // = Information =
 
-- (NSImage*) image {
-	return image;
-}
-
-- (NSSize) size {
-	return size;
-}
-
-- (unsigned) alignment {
-	return alignment;
-}
-
-- (unsigned) characterPosition {
-	return characterPosition;
-}
+@synthesize image;
+@synthesize size;
+@synthesize alignment;
+@synthesize characterPosition;
 
 // = Cached information =
 
@@ -62,13 +51,9 @@ NSString* GlkImageAttribute = @"GlkImageAttribute";
 	bounds = newBounds;
 }
 
-- (NSRect) bounds {
-	return bounds;
-}
+@synthesize bounds;
 
-- (BOOL) calculatedBounds {
-	return calculatedBounds;
-}
+@synthesize calculatedBounds;
 
 - (void) markAsUncalculated {
 	calculatedBounds = NO;
@@ -76,12 +61,12 @@ NSString* GlkImageAttribute = @"GlkImageAttribute";
 
 // = Placing this image =
 
-- (BOOL) formatSectionAtOffset: (float) offset
+- (BOOL) formatSectionAtOffset: (CGFloat) offset
 				  inTypesetter: (GlkTypesetter*) typesetter
 				 forGlyphRange: (NSRange) glyphs {
 	scaleFactor = 1.0;
 	
-	float remainingMargin = [typesetter remainingMargin];
+	CGFloat remainingMargin = [typesetter remainingMargin];
 	
 	// Add a new line section for this image
 	switch (alignment) {
@@ -157,11 +142,11 @@ NSString* GlkImageAttribute = @"GlkImageAttribute";
 
 		point.x = NSMaxX([view bounds])-marginOffset - inset.width;
 	} else {
-		float maxWidth = NSMaxX([view bounds]) - point.x - 8;
+		CGFloat maxWidth = NSMaxX([view bounds]) - point.x - 8;
 		if (maxWidth < size.width) scaleFactor = maxWidth/size.width;
 	}
 	
-	drawRect.origin = NSMakePoint(floorf(point.x), floorf(point.y));
+	drawRect.origin = NSMakePoint(floor(point.x), floor(point.y));
 	drawRect.size = size;
 	drawRect.size.width *= scaleFactor;
 	drawRect.size.height *= scaleFactor;
@@ -171,7 +156,7 @@ NSString* GlkImageAttribute = @"GlkImageAttribute";
 	
 	[image drawInRect: drawRect
 			 fromRect: imageRect
-			operation: NSCompositeSourceOver
+			operation: NSCompositingOperationSourceOver
 			 fraction: 1.0];
 }
 

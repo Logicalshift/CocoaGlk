@@ -10,31 +10,41 @@
 
 #import <GlkView/GlkWindow.h>
 
-//
-// Representation of a Glk pair window
-//
+///
+/// Representation of a Glk pair window
+///
 @interface GlkPairWindow : GlkWindow {
 	// = GLK settings
 	
 	// The two windows that make up the pair
-	GlkWindow* key;							// The key window is used to determine the size of this window (when fixed)
-	GlkWindow* left;						// Left window is the 'original' window when splitting
-	GlkWindow* right;						// Right window is the 'new' window when splitting
+	/// The key window is used to determine the size of this window (when fixed)
+	GlkWindow* key;
+	/// Left window is the 'original' window when splitting
+	GlkWindow* left;
+	/// Right window is the 'new' window when splitting
+	GlkWindow* right;
 	
-	// The size of the window
+	/// The size of the window
 	unsigned size;
 	
 	// Arrangement options
-	BOOL fixed;								// Proportional arrangement if NO
-	BOOL horizontal;						// Vertical arrangement if NO
-	BOOL above;								// NO if left is above/left of right, YES otherwise
+	/// Proportional arrangement if \c NO
+	BOOL fixed;
+	/// Vertical arrangement if \c NO
+	BOOL horizontal;
+	/// \c NO if left is above/left of right, \c YES otherwise
+	BOOL above;
 	
 	// = Custom settings
-	float borderWidth;						// Width of the border
-	BOOL inputBorder;						// YES if the border should only be drawn around windows that have requested input
+	/// Width of the border
+	CGFloat borderWidth;
+	/// \c YES if the border should only be drawn around windows that have requested input
+	BOOL inputBorder;
 	
-	BOOL needsLayout;						// True if something has changed to require the windows to be layed out again
-	NSRect borderSliver;					// The border sliver
+	/// True if something has changed to require the windows to be layed out again
+	BOOL needsLayout;
+	/// The border sliver
+	NSRect borderSliver;
 }
 
 // Setting the windows that make up this pair
@@ -42,24 +52,24 @@
 - (void) setLeftWindow: (GlkWindow*) newLeft;
 - (void) setRightWindow: (GlkWindow*) newRight;
 
-- (GlkWindow*) keyWindow;
-- (GlkWindow*) nonKeyWindow;
-- (GlkWindow*) leftWindow;
-- (GlkWindow*) rightWindow;
+@property (nonatomic, retain) GlkWindow *keyWindow;
+@property (nonatomic, readonly, assign) GlkWindow *nonKeyWindow;
+@property (nonatomic, retain) GlkWindow *leftWindow;
+@property (nonatomic, retain) GlkWindow *rightWindow;
 
 // Size and arrangement
-- (void) setSize: (unsigned) newSize;
-- (void) setFixed: (BOOL) newFixed;								// Proportional arrangement if NO
-- (void) setHorizontal: (BOOL) newHorizontal;					// Vertical arrangement if NO
-- (void) setAbove: (BOOL) newAbove;								// NO if left is above/left of right, YES otherwise
-
-- (unsigned) size;
-- (BOOL) fixed;
-- (BOOL) horizontal;
-- (BOOL) above;
+@property (nonatomic) unsigned size;
+/// Proportional arrangement if \c NO
+@property (nonatomic) BOOL fixed;
+/// Vertical arrangement if \c NO
+@property (nonatomic) BOOL horizontal;
+/// \c NO if left is above/left of right, \c YES otherwise
+@property BOOL above;
 
 // Custom settings
-- (void) setBorderWidth: (float) borderWidth;					// Width of the divider between windows (not drawn if < 2)
-- (void) setInputBorder: (BOOL) inputBorder;					// Set to true to only draw the border if input is requested
+/// Width of the divider between windows (not drawn if < 2)
+@property (nonatomic) CGFloat borderWidth;
+/// Set to \c YES to only draw the border if input is requested
+@property (nonatomic) BOOL inputBorder;
 
 @end

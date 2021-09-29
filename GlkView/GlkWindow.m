@@ -52,31 +52,13 @@
 
 // = Window metadata =
 
-- (void) setClosed: (BOOL) newClosed {
-	closed = newClosed;
-}
+@synthesize closed;
 
-- (BOOL) closed {
-	return closed;
-}
-
-- (void) setIdentifier: (unsigned) newWindowIdentifier {
-	windowIdentifier = newWindowIdentifier;
-}
-
-- (unsigned) identifier {
-	return windowIdentifier;
-}
+@synthesize identifier = windowIdentifier;
 
 // = The parent window =
 
-- (void) setParent: (GlkPairWindow*) newParent {
-	parentWindow = newParent;
-}
-
-- (GlkPairWindow*) parent {
-	return parentWindow;
-}
+@synthesize parent = parentWindow;
 
 // = Layout =
 
@@ -90,21 +72,15 @@
 	lastSize = [self glkSize];
 }
 
-- (float) widthForFixedSize: (unsigned) size {
+- (CGFloat) widthForFixedSize: (unsigned) size {
 	return size;
 }
 
-- (float) heightForFixedSize: (unsigned) size {
+- (CGFloat) heightForFixedSize: (unsigned) size {
 	return size;
 }
 
-- (void) setBorder: (float) newBorder {
-	border = newBorder;
-}
-
-- (float) border {
-	return border;
-}
+@synthesize border;
 
 - (NSRect) contentRect {
 	return NSInsetRect([self bounds], border, border);
@@ -120,21 +96,16 @@
 	return res;
 }
 
-- (void) setScaleFactor: (float) newScaleFactor {
-	scaleFactor = newScaleFactor;
-	
-	// Nothing to do in most windows
-}
+@synthesize scaleFactor;
+//- (void) setScaleFactor: (float) newScaleFactor {
+//	scaleFactor = newScaleFactor;
+//
+//	// Nothing to do in most windows
+//}
 
 // = Styles =
 
-- (void) setForceFixed: (BOOL) newForceFixed {
-	forceFixed = newForceFixed;
-}
-
-- (BOOL) forceFixed {
-	return forceFixed;
-}
+@synthesize forceFixed;
 
 - (NSColor*) backgroundColour {
 	return [[self style: style_Normal] backColour];
@@ -167,11 +138,11 @@
 	return res;
 }
 
-- (float) leading {
+- (CGFloat) leading {
 	return 0;
 }
 
-- (float) lineHeight {
+- (CGFloat) lineHeight {
     NSFont* font = [[self currentTextAttributes] objectForKey: NSFontAttributeName];
     NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
     
@@ -297,9 +268,7 @@
 	// We can't get any clearer
 }
 
-- (void) setEventTarget: (NSObject<GlkEventReceiver>*) newTarget {
-	target = newTarget;
-}
+@synthesize eventTarget = target;
 
 - (void) requestCharInput {
 	if (lineInput) {
@@ -319,13 +288,9 @@
 	[[self window] invalidateCursorRectsForView: self];
 }
 
-- (BOOL) waitingForLineInput {
-	return lineInput;
-}
+@synthesize waitingForLineInput = lineInput;
 
-- (BOOL) waitingForCharInput {
-	return charInput;
-}
+@synthesize waitingForCharInput = charInput;
 
 - (BOOL) waitingForKeyboardInput {
 	return charInput || lineInput || [self needsPaging];
@@ -514,7 +479,7 @@
 - (void) updateCaretPosition {
 }
 
-- (int) inputPos {
+- (NSInteger) inputPos {
 	// Default is 0 (not managing a text view)
 	return 0;
 }
@@ -535,19 +500,19 @@
 	// Nothing to do really
 }
 
-- (void) setPosition: (in int) position
+- (void) setPosition: (in NSInteger) position
 		  relativeTo: (in enum GlkSeekMode) seekMode {
 	// No effect
 }
 
-- (unsigned) getPosition {
+- (NSUInteger) getPosition {
 	// Spec isn't really clear on what do for window streams. We just say the position is always 0
 	return 0;
 }
 
 // Writing
 
-- (void) putChar: (unichar) ch {
+- (void) putChar: (in unichar) ch {
 	unichar buf[1];
 	
 	buf[0] = ch;
@@ -556,11 +521,11 @@
 											 length: 1]];
 }
 
-- (void) putString: (NSString*) string {
+- (void) putString: (in bycopy NSString*) string {
 	// We're blank: nothing to do
 }
 
-- (void) putBuffer: (NSData*) buffer {
+- (void) putBuffer: (in bycopy NSData*) buffer {
 	// Assume that buffers are in ISO Latin-1 format
 	NSString* string = [[[NSString alloc] initWithBytes: [buffer bytes]
 												 length: [buffer length]
@@ -580,11 +545,11 @@
 	return 0;
 }
 
-- (NSString*) getLineWithLength: (int) len {
+- (bycopy NSString*) getLineWithLength: (int) len {
 	return nil;
 }
 
-- (NSData*) getBufferWithLength: (unsigned) length {
+- (bycopy NSData*) getBufferWithLength: (NSUInteger) length {
 	return nil;
 }
 
@@ -619,13 +584,7 @@
 
 // = The containing view =
 
-- (GlkView*) containingView {
-	return containingView;
-}
-
-- (void) setContainingView: (GlkView*) view {
-	containingView = view;
-}
+@synthesize containingView;
 
 // = Paging =
 

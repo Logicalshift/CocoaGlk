@@ -10,7 +10,7 @@
 
 #include "glk.h"
 
-NSString* GlkPreferencesHaveChangedNotification = @"GlkPreferencesHaveChangedNotification";
+NSString* const GlkPreferencesHaveChangedNotification = @"GlkPreferencesHaveChangedNotification";
 
 @implementation GlkPreferences
 
@@ -84,7 +84,7 @@ NSString* GlkPreferencesHaveChangedNotification = @"GlkPreferencesHaveChangedNot
 		[header setSize: 4];
 		[subheader setSize: 1];
 		
-		[header setJustification: NSCenterTextAlignment];
+		[header setJustification: NSTextAlignmentCenter];
 		
 		[preformatted setProportional: NO];
 		
@@ -128,9 +128,7 @@ NSString* GlkPreferencesHaveChangedNotification = @"GlkPreferencesHaveChangedNot
 
 // = Changes =
 
-- (int) changeCount {
-	return changeCount;
-}
+@synthesize changeCount;
 
 - (void) preferencesHaveChanged {
 	if (!changeNotified) {
@@ -176,15 +174,10 @@ NSString* GlkPreferencesHaveChangedNotification = @"GlkPreferencesHaveChangedNot
 	[self preferencesHaveChanged];
 }
 
-- (NSFont*) proportionalFont {
-	return proportionalFont;
-}
+@synthesize proportionalFont;
+@synthesize fixedFont;
 
-- (NSFont*) fixedFont {
-	return fixedFont;
-}
-
-- (void) setFontSize: (float) fontSize {
+- (void) setFontSize: (CGFloat) fontSize {
 	NSFontManager* mgr = [NSFontManager sharedFontManager];
 	
 	NSFont* newProp = [mgr convertFont: proportionalFont
@@ -220,30 +213,17 @@ NSString* GlkPreferencesHaveChangedNotification = @"GlkPreferencesHaveChangedNot
 
 // = Typography preferences =
 
-- (float) textMargin {
-	return textMargin;
-}
+@synthesize textMargin;
 
-- (void) setTextMargin: (float) margin {
+- (void) setTextMargin: (CGFloat) margin {
 	textMargin = margin;
 	[self preferencesHaveChanged];
 }
 
-- (BOOL) useScreenFonts {
-	return useScreenFonts;
-}
-
-- (BOOL) useHyphenation {
-	return useHyphenation;
-}
-
-- (BOOL) useLigatures {
-	return ligatures;
-}
-
-- (BOOL) useKerning {
-	return kerning;
-}
+@synthesize useScreenFonts;
+@synthesize useHyphenation;
+@synthesize useLigatures = ligatures;
+@synthesize useKerning = kerning;
 
 - (void) setUseScreenFonts: (BOOL) value {
 	useScreenFonts = value;
@@ -267,11 +247,9 @@ NSString* GlkPreferencesHaveChangedNotification = @"GlkPreferencesHaveChangedNot
 
 // = Misc preferences =
 
-- (float) scrollbackLength {
-	return scrollbackLength;
-}
+@synthesize scrollbackLength;
 
-- (void) setScrollbackLength: (float) length {
+- (void) setScrollbackLength: (CGFloat) length {
 	scrollbackLength = length;
 	[self preferencesHaveChanged];
 }

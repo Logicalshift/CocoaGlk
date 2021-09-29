@@ -58,25 +58,23 @@
 
 // = Temporaryness =
 
-- (void) setTemporary: (BOOL) isTemp {
-	temporary = isTemp;
-}
+@synthesize temporary;
 
 // = The fileref protocol =
 
-- (NSObject<GlkStream>*) createReadOnlyStream {
+- (byref id<GlkStream>) createReadOnlyStream {
 	GlkFileStream* stream = [[GlkFileStream alloc] initForReadingWithFilename: pathname];
 	
 	return [stream autorelease];
 }
 
-- (NSObject<GlkStream>*) createWriteOnlyStream; {
+- (byref id<GlkStream>) createWriteOnlyStream; {
 	GlkFileStream* stream = [[GlkFileStream alloc] initForWritingWithFilename: pathname];
 	
 	return [stream autorelease];
 }
 
-- (NSObject<GlkStream>*) createReadWriteStream {
+- (byref id<GlkStream>) createReadWriteStream {
 	GlkFileStream* stream = [[GlkFileStream alloc] initForReadWriteWithFilename: pathname];
 	
 	return [stream autorelease];
@@ -91,12 +89,6 @@
 	return [[NSFileManager defaultManager] fileExistsAtPath: pathname];
 }
 
-- (void) setAutoflush: (BOOL) newAutoflush {
-	autoflush = newAutoflush;
-}
-
-- (BOOL) autoflushStream {
-	return autoflush;
-}
+@synthesize autoflushStream = autoflush;
 
 @end

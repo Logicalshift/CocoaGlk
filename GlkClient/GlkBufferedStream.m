@@ -14,7 +14,7 @@
 
 // = Initialisation =
 
-- (id) initWithStream: (NSObject<GlkStream>*) newSourceStream {
+- (id) initWithStream: (id<GlkStream>) newSourceStream {
 	self = [super init];
 	
 	if (self) {
@@ -63,8 +63,8 @@
 	}
 	
 	// Fill from high tide to the end of the buffer
-	int remaining = [fillData length];
-	int toCopy = remaining;
+	NSInteger remaining = [fillData length];
+	NSInteger toCopy = remaining;
 	
 	if (highTide + toCopy >= readAhead) toCopy = readAhead-highTide;
 	
@@ -101,8 +101,8 @@
 	bufferRemaining = readAhead;
 }
 
-- (void) setPosition: (int) position
-		  relativeTo: (enum GlkSeekMode) seekMode {
+- (void) setPosition: (in NSInteger) position
+		  relativeTo: (in enum GlkSeekMode) seekMode {
 	// Work out the target position
 	if (seekMode == GlkSeekCurrent) {
 		position -= (readAhead-bufferRemaining);
@@ -121,21 +121,21 @@
 	[self fillBuffer];
 }
 
-- (unsigned) getPosition {
+- (NSUInteger) getPosition {
 	return [sourceStream getPosition] - (readAhead-bufferRemaining);
 }
 
 // Writing
 
-- (void) putChar: (unichar) ch {
+- (void) putChar: (in unichar) ch {
 	// Writing not supported
 }
 
-- (void) putString: (NSString*) string {
+- (void) putString: (in bycopy NSString*) string {
 	// Writing not supported
 }
 
-- (void) putBuffer: (NSData*) buffer {
+- (void) putBuffer: (in bycopy NSData*) buffer {
 	// Writing not supported
 }
 
@@ -151,7 +151,7 @@
 	return bytes[0];
 }
 
-- (NSString*) getLineWithLength: (int) maxLen {
+- (bycopy NSString*) getLineWithLength: (int) maxLen {
 	NSMutableString* res = [NSMutableString string];
 	
 	unichar ch;
@@ -173,7 +173,7 @@
 	return res;
  }
 
-- (NSData*) getBufferWithLength: (unsigned) length {
+- (bycopy NSData*) getBufferWithLength: (NSUInteger) length {
 	// Return nothing if there's nothing in the buffer and we can't fill it up
 	if (bufferRemaining == readAhead && ![self fillBuffer]) {
 		return nil;
@@ -181,11 +181,11 @@
 	
 	// Keep reading bytes until we run out of buffer
 	NSMutableData* result = [[[NSMutableData alloc] init] autorelease];
-	int toRead = length;
+	NSInteger toRead = length;
 	
 	while (bufferRemaining != readAhead && toRead > 0) {
 		// Work out how much to read this pass through
-		int thisPass = toRead;
+		NSInteger thisPass = toRead;
 		
 		if (lowTide + thisPass > readAhead) {
 			thisPass = readAhead - lowTide;

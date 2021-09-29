@@ -33,7 +33,7 @@
 	
 // = Performing layout =
 
-- (int) layoutLineFromGlyph: (int) glyph {
+- (NSInteger) layoutLineFromGlyph: (NSInteger) glyph {
 	// Lays out a line fragment from the specified glyph
 	if (![self cacheGlyphsIncluding: glyph]) return glyph;
 	glyph -= cached.location;
@@ -46,14 +46,14 @@
 	int y = charIndex / gridWidth;
 	NSPoint gridPos = NSMakePoint(cellSize.width*x+inset, cellSize.height*y);
 	
-	float charPos = gridPos.x;
-	float initialCharPos = charPos;
+	CGFloat charPos = gridPos.x;
+	CGFloat initialCharPos = charPos;
 	
 	// Perform layout for as many characters as possible
-	int firstGlyph = glyph;
-	int lastChar = cacheCharIndexes[glyph];
-	float charWidth = 0;
-	int lastBoundaryGlyph = glyph;
+	NSInteger firstGlyph = glyph;
+	NSInteger lastChar = cacheCharIndexes[glyph];
+	CGFloat charWidth = 0;
+	NSInteger lastBoundaryGlyph = glyph;
 	BOOL hitTheLastGlyph = NO;
 	
 	NSRect sectionBounds =  NSMakeRect(charPos, -cacheAscenders[glyph], 
@@ -74,7 +74,7 @@
 		}
 		
 		// Correct for any inaccuracies in the width of the characters
-		if (floorf(charPos) != floorf(gridPos.x) && thisChar != lastChar) {
+		if (floor(charPos) != floor(gridPos.x) && thisChar != lastChar) {
 			// Put all the characters so far in one line section
 			[self addLineSection: sectionBounds
 					 advancement: gridPos.x-initialCharPos
@@ -95,7 +95,7 @@
 		lastChar = thisChar;
 		
 		// Measure this glyph
-		NSRect glyphBounds = NSMakeRect(charPos + charWidth, floorf(-cacheAscenders[glyph]), 
+		NSRect glyphBounds = NSMakeRect(charPos + charWidth, floor(-cacheAscenders[glyph]), 
 										cacheAdvancements[glyph], cacheLineHeight[glyph]);
 		charWidth += cacheAdvancements[glyph];
 		sectionBounds = NSUnionRect(sectionBounds, glyphBounds);

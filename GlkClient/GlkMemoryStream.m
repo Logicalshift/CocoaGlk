@@ -18,7 +18,7 @@
 // = Initialisation =
 
 - (id) initWithMemory: (unsigned char*) mem
-			   length: (int) len {
+			   length: (NSInteger) len {
 	self = [super init];
 	
 	if (self) {
@@ -32,7 +32,7 @@
 }
 
 - (id) initWithMemory: (unsigned char*) mem
-			   length: (int) len
+			   length: (NSInteger) len
 				 type: (char*) glkType {
 	self = [self initWithMemory: mem
 						 length: len];
@@ -40,7 +40,7 @@
 	if (self) {
 		if (cocoaglk_register_memory) {
 			type = glkType;
-			rock = cocoaglk_register_memory(memory, strcmp(glkType, "&+#!Iu")==0?length/4:length, type);
+			rock = cocoaglk_register_memory(memory, (glui32)(strcmp(glkType, "&+#!Iu")==0?length/4:length), type);
 		}
 	}
 	
@@ -62,14 +62,14 @@
 	}
 	
 	if (type && cocoaglk_unregister_memory) {
-		cocoaglk_unregister_memory(memory, strcmp(type, "&+#!Iu")==0?length/4:length, type, rock);
+		cocoaglk_unregister_memory(memory, (glui32)(strcmp(type, "&+#!Iu")==0?length/4:length), type, rock);
 	}
 	
 	memory = nil;
 }
 
-- (void) setPosition: (int) position
-		  relativeTo: (enum GlkSeekMode) seekMode {
+- (void) setPosition: (in NSInteger) position
+		  relativeTo: (in enum GlkSeekMode) seekMode {
 	switch (seekMode) {
 		case GlkSeekStart:
 			pointer = position;
@@ -88,13 +88,13 @@
 	if (pointer > length) pointer = length;
 }
 
-- (unsigned) getPosition {
+- (NSUInteger) getPosition {
 	return pointer;
 }
 
 // Writing
 
-- (void) putChar: (unichar) ch {
+- (void) putChar: (in unichar) ch {
 	if (ch > 255) ch = '?';
 	
 	if (memory == nil) {
@@ -107,13 +107,13 @@
 	memory[pointer++] = ch;
 }
 
-- (void) putString: (NSString*) string {
+- (void) putString: (in bycopy NSString*) string {
 	if (memory == nil) {
 		NSLog(@"Warning: tried to write to a closed memory stream");
 		return;
 	}
 	
-	int len = [string length];
+	NSInteger len = [string length];
 	char* latin1 = malloc(sizeof(char)*[string length]);
 
 	int x;
@@ -131,13 +131,13 @@
 	[latin1Data release];
 }
 
-- (void) putBuffer: (NSData*) buffer {
+- (void) putBuffer: (in bycopy NSData*) buffer {
 	if (memory == nil) {
 		NSLog(@"Warning: tried to write to a closed memory stream");
 		return;
 	}
 	
-	int bufLen = [buffer length];
+	NSInteger bufLen = [buffer length];
 	
 	if (pointer + bufLen > length) {
 		bufLen = length - pointer;
@@ -160,13 +160,13 @@
 	return memory[pointer++];
 }
 
-- (NSString*) getLineWithLength: (int) maxLen {
+- (bycopy NSString*) getLineWithLength: (int) maxLen {
 	if (memory == nil) {
 		NSLog(@"Warning: tried to read from a closed memory stream");
 		return nil;
 	}
 	
-	int start = pointer;
+	NSInteger start = pointer;
 	
 	if (pointer >= length) return nil;
 	
@@ -179,7 +179,7 @@
 	return [result autorelease];
 }
 
-- (NSData*) getBufferWithLength: (unsigned) bufLen {
+- (bycopy NSData*) getBufferWithLength: (NSUInteger) bufLen {
 	if (memory == nil) {
 		NSLog(@"Warning: tried to read from a closed memory stream");
 		return nil;

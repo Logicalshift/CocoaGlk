@@ -218,7 +218,7 @@
 	
 	// Create the window
 	logoWindow = [[NSWindow alloc] initWithContentRect: [self frame]				// Gets the size, we position later
-											 styleMask: NSBorderlessWindowMask
+											 styleMask: NSWindowStyleMaskBorderless
 											   backing: NSBackingStoreBuffered
 												 defer: YES];
 	[logoWindow setOpaque: NO];
@@ -270,8 +270,8 @@
 }
 
 - (void) fadeLogo {
-	float timePassed = [[NSDate date] timeIntervalSinceDate: fadeStart];
-	float fadeAmount = timePassed/fadeTime;
+	CGFloat timePassed = [[NSDate date] timeIntervalSinceDate: fadeStart];
+	CGFloat fadeAmount = timePassed/fadeTime;
 	
 	if (fadeAmount < 0 || fadeAmount > 1) {
 		// Finished fading: get rid of the window + the timer
@@ -321,8 +321,8 @@
 		NSRect logoSource;
 	
 		logoPos.size = logoSize;
-		logoPos.origin = NSMakePoint(floorf(rect.origin.x + (rect.size.width - logoSize.width)/2.0),
-									 floorf(rect.origin.y + (rect.size.height - logoSize.height)/2.0));
+		logoPos.origin = NSMakePoint(floor(rect.origin.x + (rect.size.width - logoSize.width)/2.0),
+									 floor(rect.origin.y + (rect.size.height - logoSize.height)/2.0));
 	
 		logoSource.size = logoSize;
 		logoSource.origin = NSMakePoint(0,0);
@@ -330,7 +330,7 @@
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
 		[logo drawInRect: logoPos
 				fromRect: logoSource
-			   operation: NSCompositeSourceOver
+			   operation: NSCompositingOperationSourceOver
 				fraction: 1.0];
 	}
 }
@@ -350,9 +350,7 @@
 
 // = The delegate =
 
-- (void) setDelegate: (id) newDelegate {
-	delegate = newDelegate;
-}
+@synthesize delegate;
 
 - (BOOL) disableLogo {
 	if (delegate && [delegate respondsToSelector: @selector(disableLogo)]) {
@@ -368,7 +366,7 @@
 	}
 }
 
-- (void) showError: (NSString*) error {
+- (void) showError: (in bycopy NSString*) error {
 	[self logMessage: [NSString stringWithFormat: @"Client error: %@", error]
 		  withStatus: GlkLogError];
 	
@@ -390,7 +388,7 @@
 	}
 }
 
-- (void) showWarning: (NSString*) warning {
+- (void) showWarning: (in bycopy NSString*) warning {
 	[self logMessage: [NSString stringWithFormat: @"Client warning: %@", warning]
 		  withStatus: GlkLogWarning];
 
@@ -478,7 +476,7 @@
 				// Could look for the common ancestor, but this way is easier
 				GlkEvent* newEvent = [[GlkArrangeEvent alloc] initWithGlkWindow: rootWindow];
 				
-				unsigned evtIndex = [events indexOfObjectIdenticalTo: arrangeEvent];
+				NSUInteger evtIndex = [events indexOfObjectIdenticalTo: arrangeEvent];
 				
 				if (evtIndex != NSNotFound) {
 					[events replaceObjectAtIndex: evtIndex
@@ -514,9 +512,7 @@
 	}
 }
 
-- (int) synchronisationCount {
-	return syncCount;
-}
+@synthesize synchronisationCount = syncCount;
 
 - (void) requestClientSync {
 	syncCount++;
@@ -564,6 +560,8 @@
 	[self logMessage: @"View cookie set"
 		  withStatus: GlkLogRoutine];
 }
+
+@synthesize viewCookie;
 
 - (void) setRandomViewCookie {
 	unichar randomCookie[16];
@@ -645,7 +643,7 @@
 	[subtask terminate];
 }
 
-- (void) addStream: (NSObject<GlkStream>*) stream 
+- (void) addStream: (id<GlkStream>) stream
 		   withKey: (NSString*) streamKey {
 	if (!extraStreamDictionary) {
 		extraStreamDictionary = [[NSMutableDictionary alloc] init];
@@ -671,7 +669,9 @@
 		  withStatus: GlkLogRoutine];
 }
 
-- (void) setInputStream: (NSObject<GlkStream>*) stream {
+@synthesize inputStream;
+
+- (void) setInputStream: (id<GlkStream>) stream {
 	[inputStream release]; inputStream = nil;
 	inputStream = [stream retain];
 	
@@ -722,7 +722,7 @@
 
 // Buffering
 
-- (void) performOperationsFromBuffer: (GlkBuffer*) buffer {
+- (void) performOperationsFromBuffer: (in bycopy GlkBuffer*) buffer {
 	if (flushing) {
 		NSLog(@"WARNING: buffer flush deferred to avoid out-of-order data");
 		
@@ -774,7 +774,8 @@
 	}	
 }
 
-- (void) setScaleFactor: (float) scale {
+@synthesize scaleFactor;
+- (void) setScaleFactor: (CGFloat) scale {
 	scaleFactor = scale;
 	[rootWindow setScaleFactor: scale];
 
@@ -790,7 +791,7 @@
 	}
 }
 
-- (void) setBorderWidth: (float) newBorderWidth {
+- (void) setBorderWidth: (CGFloat) newBorderWidth {
 	// Do nothing if the border is already the right size
 	if (newBorderWidth == borderWidth) return;
 	
@@ -805,7 +806,7 @@
 
 // Streams
 
-- (NSObject<GlkStream>*) streamForWindowIdentifier: (unsigned) windowId {
+- (byref id<GlkStream>) streamForWindowIdentifier: (unsigned) windowId {
 	GlkWindow* window = [glkWindows objectForKey: [NSNumber numberWithUnsignedInt: windowId]];
 	
 	if (window) {
@@ -815,11 +816,11 @@
 	}
 }
 
-- (NSObject<GlkStream>*) inputStream {
+- (byref id<GlkStream>) inputStream {
 	return inputStream;
 }
 
-- (NSObject<GlkStream>*) streamForKey: (NSString*) key {
+- (byref id<GlkStream>) streamForKey: (in bycopy NSString*) key {
 	return [extraStreamDictionary objectForKey: key];
 }
 
@@ -853,9 +854,9 @@
 				col = [style textColour];
 			}
 			
-			int r = floorf(255.0 * [col redComponent]);
-			int g = floorf(255.0 * [col greenComponent]);
-			int b = floorf(255.0 * [col blueComponent]);
+			int r = floor(255.0 * [col redComponent]);
+			int g = floor(255.0 * [col greenComponent]);
+			int b = floor(255.0 * [col blueComponent]);
 			
 			return (r<<16)|(g<<8)|(b);
 		}
@@ -866,13 +867,13 @@
 		case stylehint_Justification:
 			switch ([style justification]) {
 				default:
-				case NSLeftTextAlignment:
+				case NSTextAlignmentLeft:
 					return stylehint_just_LeftFlush;
-				case NSRightTextAlignment:
+				case NSTextAlignmentRight:
 					return stylehint_just_RightFlush;
-				case NSCenterTextAlignment:
+				case NSTextAlignmentCenter:
 					return stylehint_just_Centered;
-				case NSJustifiedTextAlignment:
+				case NSTextAlignmentJustified:
 					return stylehint_just_LeftRight;
 			}
 			
@@ -924,7 +925,7 @@
 
 // Events
 
-- (NSObject<GlkEvent>*) nextEvent {
+- (bycopy id<GlkEvent>) nextEvent {
 	if ([events count] > 0) {
 		// Get the next event from the queue
 		GlkEvent* nextEvent = [[[events objectAtIndex: 0] retain] autorelease];
@@ -943,7 +944,7 @@
 	}
 }
 
-- (void) setEventListener: (NSObject<GlkEventListener>*) newListener {
+- (void) setEventListener: (in byref id<GlkEventListener>) newListener {
 	[listener autorelease]; listener = nil;
 	
 	// Inform any input automation objects that if they've got events waiting, then now is the time to fire them
@@ -951,7 +952,7 @@
 		listener = [newListener retain];
 
 		NSEnumerator* inputReceiverEnum = [inputReceivers objectEnumerator];
-		NSObject<GlkAutomation>* receiver;
+		id<GlkAutomation> receiver;
 		
 		while (receiver = [inputReceiverEnum nextObject]) {
 			[receiver viewIsWaitingForInput: self];
@@ -989,7 +990,7 @@
 
 // Filerefs
 
-- (NSObject<GlkFileRef>*) fileRefWithName: (NSString*) name {
+- (id<GlkFileRef>) fileRefWithName: (in bycopy NSString*) name {
 	// Turn into a 'real' path
 	NSString* path = [self pathForNamedFile: name];
 	if (!path) return nil;
@@ -1002,13 +1003,13 @@
 	return [res autorelease];
 }
 
-- (NSObject<GlkFileRef>*) tempFileRef {
+- (id<GlkFileRef>) tempFileRef {
 	NSString* tempDir = NSTemporaryDirectory();
 	if (tempDir == nil) return nil;
 	
 	// Get a temporary file name
 	char tempName[25];
-	int x;
+	long x;
 	
 	strcpy(tempName, "cocoaglk_");
    	for (x=strlen(tempName); x<25; x++) 
@@ -1017,7 +1018,7 @@
 	
 	mktemp(tempName);
 	
-	NSString* tempPath = [tempDir stringByAppendingPathComponent: [NSString stringWithCString: tempName]];
+	NSString* tempPath = [tempDir stringByAppendingPathComponent: @(tempName)];
 	
 	// Turn into a temporary fileref
 	GlkFileRef* res = [[GlkFileRef alloc] initWithPath: tempPath];
@@ -1030,7 +1031,7 @@
 		 contextInfo: (void*) willBeNil {
 	if (!promptHandler) return;
 	
-	if (returnCode == NSOKButton) {
+	if (returnCode == NSModalResponseOK) {
 		GlkFileRef* promptRef = [[GlkFileRef alloc] initWithPath: [panel filename]];
 		[promptHandler promptedFileRef: promptRef];
 		[promptRef autorelease];
@@ -1049,7 +1050,7 @@
 	[lastPanel release]; lastPanel = nil;
 }
 
-- (NSArray*) fileTypesForUsage: (NSString*) usage {
+- (bycopy NSArray*) fileTypesForUsage: (in bycopy NSString*) usage {
 	// Get the user-set value (if any)
 	NSArray* result = [[[extensionsForUsage objectForKey: usage] retain] autorelease];
 	if (result) return result;
@@ -1072,15 +1073,15 @@
 	return nil;
 }
 
-- (void) setFileTypes: (NSArray*) extensions
-			 forUsage: (NSString*) usage {
+- (void) setFileTypes: (in bycopy NSArray*) extensions
+			 forUsage: (in bycopy NSString*) usage {
 	[extensionsForUsage setObject: [[[NSArray alloc] initWithArray: extensions copyItems: YES] autorelease]
 						   forKey: usage];
 }
 
-- (void) promptForFilesForUsage: (NSString*) usage
+- (void) promptForFilesForUsage: (in bycopy NSString*) usage
 					 forWriting: (BOOL) writing
-						handler: (NSObject<GlkFilePrompt>*) handler {
+						handler: (in byref id<GlkFilePrompt>) handler {
 	// Pick a preferred directory
 	NSString* preferredDirectory = nil;
 	
@@ -1109,9 +1110,9 @@
 					   handler: handler];
 }
 
-- (void) promptForFilesOfType: (NSArray*) filetypes
+- (void) promptForFilesOfType: (in bycopy NSArray*) filetypes
 				   forWriting: (BOOL) writing
-					  handler: (NSObject<GlkFilePrompt>*) handler {
+					  handler: (in byref id<GlkFilePrompt>) handler {
 	// If we don't have a window, we can't show a dialog, so we can't get a filename
 	if (![self window]) {
 		[handler promptCancelled];
@@ -1147,20 +1148,15 @@
 	NSWindow* window = [self window];
 	
 	BOOL showAsSheet = YES;
-	if (([window styleMask]) == NSBorderlessWindowMask) showAsSheet = NO;
+	if (([window styleMask]) == NSWindowStyleMaskBorderless) showAsSheet = NO;
 	
 	// Create the prompt
 	if (writing) {
 		// Create a save dialog
 		NSSavePanel* panel = [NSSavePanel savePanel];
 		
-		[panel setRequiredFileType: [allowedFiletypes objectAtIndex: 0]];
+		[panel setAllowedFileTypes: allowedFiletypes];
 		if (preferredDirectory != nil) [panel setDirectory: preferredDirectory];
-		
-		if ([panel respondsToSelector: @selector(setAllowedFileTypes:)]) {
-			// Only works on 10.3
-			[panel setAllowedFileTypes: allowedFiletypes];
-		}
 		
 		[panel beginSheetForDirectory: preferredDirectory
 								 file: nil
@@ -1174,13 +1170,8 @@
 		// Create an open dialog
 		NSOpenPanel* panel = [NSOpenPanel openPanel];
 
-		[panel setRequiredFileType: [allowedFiletypes objectAtIndex: 0]];
+		[panel setAllowedFileTypes: allowedFiletypes];
 		if (preferredDirectory != nil) [panel setDirectory: preferredDirectory];
-		
-		if ([panel respondsToSelector: @selector(setAllowedFileTypes:)]) {
-			// Only works on 10.3
-			[panel setAllowedFileTypes: allowedFiletypes];
-		}
 		
 		[panel beginSheetForDirectory: preferredDirectory
 								 file: nil
@@ -1441,7 +1432,7 @@
 }
 
 - (void) clearWindowIdentifier: (glui32) identifier 
-		  withBackgroundColour: (NSColor*) bgCol {
+		  withBackgroundColour: (in bycopy NSColor*) bgCol {
 	GlkWindow* win = [glkWindows objectForKey: [NSNumber numberWithUnsignedInt: identifier]];
 	
 	if (!win) {
@@ -1456,7 +1447,7 @@
 	[win clearWindow];
 }
 
-- (void) setInputLine: (NSString*) inputLine
+- (void) setInputLine: (in bycopy NSString*) inputLine
   forWindowIdentifier: (unsigned) identifier {
 	GlkWindow* win = [glkWindows objectForKey: [NSNumber numberWithUnsignedInt: identifier]];
 	
@@ -1581,7 +1572,7 @@
 - (void) setStyleHint: (glui32) hint
 			  toValue: (glsi32) value
 			 inStream: (glui32) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (!stream) {
 		NSLog(@"Warning: attempt to set an immediate style hint in an undefined stream");
@@ -1594,7 +1585,7 @@
 
 - (void) clearStyleHint: (glui32) hint
 			   inStream: (glui32) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (!stream) {
 		NSLog(@"Warning: attempt to clear an immediate style hint in an undefined stream");
@@ -1606,7 +1597,7 @@
 
 - (void) setCustomAttributes: (NSDictionary*) attributes
 					inStream: (glui32) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (!stream) {
 		NSLog(@"Warning: attempt to set custom attributes in an undefined stream");
@@ -1709,7 +1700,7 @@
 
 // Registering streams
 
-- (void) registerStream: (NSObject<GlkStream>*) stream
+- (void) registerStream: (in byref id<GlkStream>) stream
 		  forIdentifier: (unsigned) streamIdentifier {
 	[glkStreams setObject: stream
 				   forKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
@@ -1729,7 +1720,7 @@
 }
 
 - (void) closeStreamIdentifier: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (!stream) {
 		NSLog(@"Warning: attempt to close nonexistent stream");
@@ -1741,7 +1732,7 @@
 }
 
 - (void) unregisterStreamIdentifier: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (!stream) {
 		// Stream might not have been registered to begin with: we consider this OK
@@ -1753,13 +1744,13 @@
 
 // Buffering stream writes
 
-- (void) automateStream: (NSObject<GlkStream>*) stream
+- (void) automateStream: (id<GlkStream>) stream
 			  forString: (NSString*) string {
 	// If this is a text window stream, then send the output to the appropriate automation objects
 	if ([stream isKindOfClass: [GlkTextWindow class]] &&
 		![stream isKindOfClass: [GlkTextGridWindow class]]) {
 		NSEnumerator* outputEnum = [outputReceivers objectEnumerator];
-		NSObject<GlkAutomation>* receiver;
+		id<GlkAutomation> receiver;
 		
 		int windowId = [self automationIdForWindowId: [(GlkTextWindow*)stream identifier]];
 		
@@ -1773,7 +1764,7 @@
 
 - (void) putChar: (unichar) ch
 		toStream: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (stream == nil) {
 		NSLog(@"Warning: attempt to write to nonexistent stream");
@@ -1790,9 +1781,9 @@
 	[stream putChar: ch];
 }
 
-- (void) putString: (NSString*) string
+- (void) putString: (in bycopy NSString*) string
 		  toStream: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (stream == nil) {
 		NSLog(@"Warning: attempt to write to nonexistent stream");
@@ -1807,9 +1798,9 @@
 	[stream putString: [NSString stringWithString: string]];
 }
 
-- (void) putData: (NSData*) data
+- (void) putData: (in bycopy NSData*) data
 		toStream: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (stream == nil) {
 		NSLog(@"Warning: attempt to write to nonexistent stream");
@@ -1821,7 +1812,7 @@
 
 - (void) setStyle: (unsigned) style
 		 onStream: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (stream == nil) {
 		NSLog(@"Warning: attempt to set style on a nonexistent stream");
@@ -1836,7 +1827,7 @@
 
 - (void) setHyperlink: (unsigned int) value
 			 onStream: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (stream == nil) {
 		NSLog(@"Warning: attempt to set style on a nonexistent stream");
@@ -1847,7 +1838,7 @@
 }
 
 - (void) clearHyperlinkOnStream: (unsigned) streamIdentifier {
-	NSObject<GlkStream>* stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
+	id<GlkStream> stream = [glkStreams objectForKey: [NSNumber numberWithUnsignedInt: streamIdentifier]];
 	
 	if (stream == nil) {
 		NSLog(@"Warning: attempt to set style on a nonexistent stream");
@@ -1963,7 +1954,7 @@
 	[win requestHyperlinkInput];
 }
 
-- (NSString*) cancelLineEventsForWindowIdentifier: (unsigned) windowIdentifier {
+- (bycopy NSString*) cancelLineEventsForWindowIdentifier: (unsigned) windowIdentifier {
 	GlkWindow* win = [glkWindows objectForKey: [NSNumber numberWithUnsignedInt: windowIdentifier]];
 	
 	if (!win) {
@@ -2009,11 +2000,11 @@
 
 // = Image management =
 
-- (void) setImageSource: (id<GlkImageSource>) source {
+- (void) setImageSource: (in byref id<GlkImageSource>) source {
 	imgSrc = [(NSObject<GlkImageSource>*)source retain];
 }
 
-- (id<GlkImageSource>) imageSource {
+- (out byref id<GlkImageSource>) imageSource {
 	return [[imgSrc retain] autorelease];
 }
 
@@ -2055,7 +2046,7 @@
 	[flippedImage lockFocus];
 	[image drawInRect: imageRect
 			 fromRect: imageRect
-			operation: NSCompositeSourceOver
+			operation: NSCompositingOperationSourceOver
 			 fraction: 1.0];
 	[flippedImage unlockFocus];
 	
@@ -2103,7 +2094,7 @@
 		[image lockFocus];
 		[sourceImage drawInRect: NSMakeRect(0,0, pixelSize.width, pixelSize.height)
 					   fromRect: srcRect
-					  operation: NSCompositeSourceOver
+					  operation: NSCompositingOperationSourceOver
 					   fraction: 1.0];
 		[image unlockFocus];
 
@@ -2127,7 +2118,7 @@
 }
 
 - (void) fillAreaInWindowWithIdentifier: (unsigned) windowIdentifier
-							 withColour: (NSColor*) col
+							 withColour: (in bycopy NSColor*) col
 							  rectangle: (NSRect) rect {
 	GlkWindow* win = [glkWindows objectForKey: [NSNumber numberWithUnsignedInt: windowIdentifier]];
 	
@@ -2265,7 +2256,7 @@
 	
 	if ([outputReceivers count] > 0) {
 		NSEnumerator* outputReceiverEnum = [outputReceivers objectEnumerator];
-		NSObject<GlkAutomation>* receiver;
+		id<GlkAutomation> receiver;
 		int ident = [self automationIdForWindowId: windowId];
 		
 		while (receiver = [outputReceiverEnum nextObject]) {
@@ -2301,15 +2292,15 @@
 
 // = Automation =
 
-- (void) addOutputReceiver: (NSObject<GlkAutomation>*) receiver {
+- (void) addOutputReceiver: (id<GlkAutomation>) receiver {
 	[outputReceivers addObject: receiver];
 }
 
-- (void) addInputReceiver: (NSObject<GlkAutomation>*) receiver {
+- (void) addInputReceiver: (id<GlkAutomation>) receiver {
 	[inputReceivers addObject: receiver];
 }
 
-- (void) removeAutomationObject: (NSObject<GlkAutomation>*) receiver {
+- (void) removeAutomationObject: (id<GlkAutomation>) receiver {
 	[outputReceivers removeObjectIdenticalTo: receiver];
 	[inputReceivers removeObjectIdenticalTo: receiver];
 }
@@ -2335,6 +2326,8 @@
 		return rootWindow;
 	}
 }
+
+@dynamic canSendInput;
 
 - (BOOL) canSendInput {
 	GlkWindow* candidate = rootWindow;
@@ -2379,7 +2372,7 @@
 
 // = Writing log messages =
 
-- (void) logMessage: (NSString*) message {
+- (void) logMessage: (in bycopy NSString*) message {
 	[self logMessage: message
 		  withStatus: GlkLogCustom];
 }
@@ -2437,13 +2430,7 @@ static BOOL pageAllFrom(GlkWindow* win) {
 	return pageAllFrom(rootWindow);
 }
 
-- (void) setAlwaysPageOnMore: (BOOL) alwaysPage {
-	alwaysPageOnMore = alwaysPage;
-}
-
-- (BOOL) alwaysPageOnMore {
-	return alwaysPageOnMore;
-}
+@synthesize alwaysPageOnMore;
 
 // Various UI events
 

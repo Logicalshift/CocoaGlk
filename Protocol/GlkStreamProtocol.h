@@ -19,7 +19,7 @@
 // This amounts to the same things overall, but makes it easy to update later.
 //
 
-enum GlkSeekMode {
+typedef NS_ENUM(int, GlkSeekMode) {
 	GlkSeekStart,
 	GlkSeekCurrent,
 	GlkSeekEnd
@@ -27,14 +27,20 @@ enum GlkSeekMode {
 
 #define GlkEOFChar 0xffff
 
-@protocol GlkStream
+///
+/// Streams can also be accessed through the buffer (and usually are for writing)
+///
+/// Our streams use unichars and unicode strings rather than the Latin-1 specified by Glk.
+/// This amounts to the same things overall, but makes it easy to update later.
+///
+@protocol GlkStream <NSObject>
 
 // Control
 - (void) closeStream;
-- (void) setPosition: (in int) position
+- (void) setPosition: (in NSInteger) position
 		  relativeTo: (in enum GlkSeekMode) seekMode;
 
-- (unsigned) getPosition;
+- (NSUInteger) getPosition;
 
 // Writing
 - (void) putChar: (in unichar) ch;
@@ -44,11 +50,13 @@ enum GlkSeekMode {
 // Reading
 - (unichar) getChar;
 - (bycopy NSString*) getLineWithLength: (int) maxLen;
-- (bycopy NSData*) getBufferWithLength: (unsigned) length;
+- (bycopy NSData*) getBufferWithLength: (NSUInteger) length;
 
 // Styles
 - (void) setStyle: (int) styleId;
 - (int) style;
+
+@property (nonatomic, readwrite) int style;
 
 - (void) setImmediateStyleHint: (unsigned) hint
 					   toValue: (int) value;

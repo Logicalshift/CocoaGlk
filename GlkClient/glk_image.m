@@ -217,15 +217,15 @@ void glk_window_fill_rect(winid_t win, glui32 color,
 	
 #if !defined(COCOAGLK_IPHONE)
 	// Create an NSColor from the color value
-	NSColor* fillColour = [NSColor colorWithDeviceRed: ((float)(color&0xff0000))/16711680.0
-												green: ((float)(color&0xff00))/65280.0
-												 blue: ((float)(color&0xff))/255.0
+	NSColor* fillColour = [NSColor colorWithDeviceRed: ((CGFloat)(color&0xff0000))/16711680.0
+												green: ((CGFloat)(color&0xff00))/65280.0
+												 blue: ((CGFloat)(color&0xff))/255.0
 												alpha: 1.0];
 #else
 	// Create a UIColor from the color value
-	UIColor* fillColour = [UIColor colorWithRed: ((float)(color&0xff0000))/16711680.0
-										  green: ((float)(color&0xff00))/65280.0
-										   blue: ((float)(color&0xff))/255.0
+	UIColor* fillColour = [UIColor colorWithRed: ((CGFloat)(color&0xff0000))/16711680.0
+										  green: ((CGFloat)(color&0xff00))/65280.0
+										   blue: ((CGFloat)(color&0xff))/255.0
 										  alpha: 1.0];
 #endif
 	
@@ -284,7 +284,7 @@ void glk_window_set_background_color(winid_t win, glui32 color) {
 	return self;
 }
 
-- (NSData*) dataForImageResource: (glui32) image {
+- (bycopy NSData*) dataForImageResource: (glui32) image {
 	// Attempt to load the image from the blorb resources
 	giblorb_result_t res;
 	giblorb_err_t    erm;
